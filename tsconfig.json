@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@deividfortuna/input-number": [
+        "dist/deividfortuna/input-number"
+      ],
+      "@deividfortuna/input-number/*": [
+        "dist/deividfortuna/input-number/*"
+      ]
+    }
   }
 }

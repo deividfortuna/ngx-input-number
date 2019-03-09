@@ -1,0 +1,33 @@
+{
+  "name": "@deividfortuna/input-number",
+  "version": "0.0.1",
+  "author": {
+    "name": "Deivid Fortuna",
+    "email": "deividfortuna@gmail.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deividfortuna/ngx-input-number"
+  },
+  "description": "Angular numeric input directive",
+  "keywords": [
+    "angular",
+    "directive",
+    "input",
+    "numeric",
+    "integer",
+    "decimal",
+    "digit"
+  ],
+  "homepage": "https://github.com/deividfortuna/ngx-input-number#readme",
+  "bugs": {
+    "url": "https://github.com/deividfortuna/ngx-input-number/issues"
+  },
+  "peerDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0"
+  }
+}

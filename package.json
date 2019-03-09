@@ -5,6 +5,11 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --prod",
+    "build:lib": "ng build --project=@deividfortuna/input-number",
+    "test-ci": "ng test @deividfortuna/input-number --watch=false --browsers=ChromeHeadless",
+    "test-e2e-ci": "ng e2e",
+    "build-ci": "ng build @deividfortuna/input-number",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -26,6 +31,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
+    "@angular-devkit/build-ng-packagr": "~0.13.0",
     "@angular/cli": "~7.3.4",
     "@angular/compiler-cli": "~7.2.0",
     "@angular/language-service": "~7.2.0",
@@ -40,8 +46,11 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "ng-packagr": "^4.2.0",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
+    "tsickle": ">=0.34.0",
+    "tslib": "^1.9.0",
     "tslint": "~5.11.0",
     "typescript": "~3.2.2"
   }

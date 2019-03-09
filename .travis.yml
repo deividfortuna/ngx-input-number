@@ -1,0 +1,21 @@
+sudo: required
+addons:
+  chrome: stable
+language: node_js
+node_js:
+- node
+script:
+- npm run test-ci
+- npm run test-e2e-ci
+- npm run build-ci
+before_deploy:
+  - cd dist/deividfortuna/input-number
+deploy:
+  provider: npm
+  email: deividfortuna@gmail.com
+  skip_cleanup: true
+  api_key:
+    secure: 5b9016bf-5ae0-4ba5-98c9-4eb7cca760c0
+  on:
+    tags: true
+    repo: deividfortuna/ngx-input-number

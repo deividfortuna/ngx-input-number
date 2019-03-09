@@ -130,6 +130,41 @@
           }
         }
       }
+    },
+    "@deividfortuna/input-number": {
+      "root": "projects/deividfortuna/input-number",
+      "sourceRoot": "projects/deividfortuna/input-number/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/deividfortuna/input-number/tsconfig.lib.json",
+            "project": "projects/deividfortuna/input-number/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/deividfortuna/input-number/src/test.ts",
+            "tsConfig": "projects/deividfortuna/input-number/tsconfig.spec.json",
+            "karmaConfig": "projects/deividfortuna/input-number/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/deividfortuna/input-number/tsconfig.lib.json",
+              "projects/deividfortuna/input-number/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-input-number"

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ngx-input-number';
+  valueInteger =  new FormControl('');
+  valueDecimal =  new FormControl('');
+
+  constructor() {
+    this.valueDecimal.valueChanges.subscribe(value => {
+      console.log('value changed: ', value);
+    });
+  }
 }
