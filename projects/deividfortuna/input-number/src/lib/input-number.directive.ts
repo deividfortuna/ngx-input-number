@@ -43,7 +43,7 @@ export class InputNumberDirective {
         // Allow just one dot
         if (indexOfDot < 0) {
           // Dont allow dots if will trasnform in a invalid value
-          if (this.element.value.substr(this.element.selectionStart).length < this.decimalPlaces) {
+          if (this.element.value.substr(this.element.selectionStart).length <= this.decimalPlaces) {
             return;
           } else {
             event.preventDefault();

@@ -142,7 +142,7 @@ describe('Input Number Example App', () => {
       expect(await page.getDecimalShowText().getText()).toEqual('123456.987');
     });
 
-    it('should not allow entry a decimal indicator when will have more than excpected decimal places', async () => {
+    it('should not allow entry a decimal indicator when will have more than expected decimal places', async () => {
       page.navigateTo();
 
       const decimalNumber = '123456789';
@@ -154,6 +154,20 @@ describe('Input Number Example App', () => {
       await page.getDecimalInput().sendKeys('.');
 
       expect(await page.getDecimalShowText().getText()).toEqual('123456789');
+    });
+
+    it('should allow entry a decimal indicator when will have less or the same amount of decimal places allowed', async () => {
+      page.navigateTo();
+
+      const decimalNumber = '123456789';
+      const script = `arguments[0].setSelectionRange(6, 6)`;
+      page.getDecimalInput().sendKeys(decimalNumber);
+
+      await browser.executeScript(script, page.getDecimalInput()
+        .getWebElement());
+      await page.getDecimalInput().sendKeys('.');
+
+      expect(await page.getDecimalShowText().getText()).toEqual('123456.789');
     });
 
     // TODO: new test cases / new features
