@@ -7,11 +7,13 @@ export class InputNumberDirective {
   @Input() decimalPlaces = 2;
 
   private readonly numbersIntegerOnly: RegExp = /\d+/g;
+  private element: HTMLInputElement;
 
   constructor(
     private inputNumberService: InputNumberService,
     private renderer2: Renderer2,
     private elementRef: ElementRef<HTMLInputElement>) {
+    this.element = elementRef.nativeElement;
   }
 
   @HostListener('keydown', ['$event', '$event.target']) onInput(event: KeyboardEvent, target: HTMLInputElement) {
@@ -35,22 +37,29 @@ export class InputNumberDirective {
     }
 
     if (this.acceptDecimalPlaces) {
-      const indexOfDot = this.elementRef.nativeElement.value.indexOf('.');
+      const indexOfDot = this.element.value.indexOf('.');
 
-      // Allow Decimal Point/Period if the already have some numbers
-      if (this.inputNumberService.isDecimalIndicator(event) && (indexOfDot < 0)) {
-        return;
-      }
-
-      // If accept decimal places check if there is already two decimal numbers and prevent new ones
-      if (indexOfDot > -1) {
-        if (this.elementRef.nativeElement.selectionStart <= indexOfDot && !this.inputNumberService.isDecimalIndicator(event)) {
+      if (this.inputNumberService.isDecimalIndicator(event)) {
+        // Allow just one dot
+        if (indexOfDot < 0) {
+          // Dont allow dots if will trasnform in a invalid value
+          if (this.element.value.substr(this.element.selectionStart).length < this.decimalPlaces) {
+            return;
+          } else {
+            event.preventDefault();
+          }
+        }
+        // Is not a dot/decimal indicator
+      } else if (indexOfDot > -1) {
+        // If is trying to insert the value before the dot
+        if (this.element.selectionStart <= indexOfDot) {
           return;
         } else {
+          // If is inserting the value after the dot
           const valueAfterDot: string = target.value.substring(indexOfDot + 1);
+          // Check if already has the maximum of decimal places
           if (valueAfterDot.length >= this.decimalPlaces) {
             event.preventDefault();
-            return;
           }
         }
       }
@@ -67,20 +76,25 @@ export class InputNumberDirective {
   @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent) {
     event.preventDefault();
     const pasteValue: string = event.clipboardData.getData('text');
+    // Cleaning the data before insert in the field
     const cleanedValue = this.inputNumberService
       .removeNonNumbers(pasteValue, this.numbersIntegerOnly, this.acceptDecimalPlaces, this.decimalPlaces);
 
+    document.execCommand('insertText', false, cleanedValue);
     this.renderer2.setProperty(this.elementRef.nativeElement, 'value', cleanedValue);
   }
 
   @HostListener('drop', ['$event']) onDrop(event: DragEvent) {
     event.preventDefault();
     const textData = event.dataTransfer.getData('text');
+
+    // Cleaning the data before insert in the field
     const cleanedValue = this.inputNumberService
       .removeNonNumbers(textData, this.numbersIntegerOnly, this.acceptDecimalPlaces, this.decimalPlaces);
 
-    this.elementRef.nativeElement.focus();
+    this.element.focus();
 
+    document.execCommand('insertText', false, cleanedValue);
     this.renderer2.setProperty(this.elementRef.nativeElement, 'value', cleanedValue);
   }
 }
