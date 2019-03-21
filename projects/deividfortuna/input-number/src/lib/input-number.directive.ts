@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { InputNumberService } from './input-number.service';
 
 @Directive({ selector: '[inputNumber]' })
@@ -6,12 +6,10 @@ export class InputNumberDirective {
   @Input() acceptDecimalPlaces = false;
   @Input() decimalPlaces = 2;
 
-  private readonly numbersIntegerOnly: RegExp = /\d+/g;
   private element: HTMLInputElement;
 
   constructor(
     private inputNumberService: InputNumberService,
-    private renderer2: Renderer2,
     private elementRef: ElementRef<HTMLInputElement>) {
     this.element = elementRef.nativeElement;
   }
@@ -75,26 +73,42 @@ export class InputNumberDirective {
 
   @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent) {
     event.preventDefault();
-    const pasteValue: string = event.clipboardData.getData('text');
-    // Cleaning the data before insert in the field
-    const cleanedValue = this.inputNumberService
-      .removeNonNumbers(pasteValue, this.numbersIntegerOnly, this.acceptDecimalPlaces, this.decimalPlaces);
+    event.stopPropagation();
 
-    document.execCommand('insertText', false, cleanedValue);
-    this.renderer2.setProperty(this.elementRef.nativeElement, 'value', cleanedValue);
-  }
-
-  @HostListener('drop', ['$event']) onDrop(event: DragEvent) {
-    event.preventDefault();
-    const textData = event.dataTransfer.getData('text');
+    const pastedEntry: string = event.clipboardData.getData('text');
 
     // Cleaning the data before insert in the field
     const cleanedValue = this.inputNumberService
-      .removeNonNumbers(textData, this.numbersIntegerOnly, this.acceptDecimalPlaces, this.decimalPlaces);
+      .removeNonNumbers(pastedEntry, this.acceptDecimalPlaces, this.decimalPlaces);
 
     this.element.focus();
 
-    document.execCommand('insertText', false, cleanedValue);
-    this.renderer2.setProperty(this.elementRef.nativeElement, 'value', cleanedValue);
+    const inserted = document.execCommand('insertText', false, cleanedValue);
+
+    // If something goes wrong on insert text, like firefox: https://bugzilla.mozilla.org/show_bug.cgi?id=1220696
+    if (!inserted) {
+      this.element.value = cleanedValue;
+      this.element.dispatchEvent(new Event('input'));
+    }
+  }
+
+  @HostListener('drop', ['$event']) onDrop(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropedEntry = event.dataTransfer.getData('text');
+
+    // Cleaning the data before insert in the field
+    const cleanedValue = this.inputNumberService
+      .removeNonNumbers(dropedEntry, this.acceptDecimalPlaces, this.decimalPlaces);
+
+    this.element.focus();
+
+    const inserted = document.execCommand('insertText', false, cleanedValue);
+
+    // If something goes wrong on insert text, like firefox: https://bugzilla.mozilla.org/show_bug.cgi?id=1220696
+    if (!inserted) {
+      this.element.value = cleanedValue;
+      this.element.dispatchEvent(new Event('input'));
+    }
   }
 }

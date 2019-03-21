@@ -8,12 +8,18 @@ import { FormControl } from '@angular/forms';
 })
 export class AppComponent {
   title = 'ngx-input-number';
-  valueInteger =  new FormControl('');
-  valueDecimal =  new FormControl('');
+  valueInteger = new FormControl('');
+  valueDecimal = new FormControl('');
+  lastChangeDecimal = null;
 
   constructor() {
     this.valueDecimal.valueChanges.subscribe(value => {
-      console.log('value changed: ', value);
+      // console.log('decimal changed: ', value);
+      this.lastChangeDecimal = value;
+    });
+
+    this.valueInteger.valueChanges.subscribe(value => {
+      // console.log('integer changed: ', value);
     });
   }
 }

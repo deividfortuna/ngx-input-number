@@ -8,19 +8,27 @@ exports.config = {
   specs: [
     './src/**/*.e2e-spec.ts'
   ],
-  capabilities: {
-    'browserName': 'chrome',
-    chromeOptions: {
-      args: [ "--headless" ]
+  multiCapabilities: [
+    {
+      'browserName': 'chrome',
+      chromeOptions: {
+        args: [ "--headless" ]
+      }
     },
-  },
+    {
+      'browserName': 'firefox',
+      'moz:firefoxOptions': {
+        args: [ "--headless" ]
+      },
+    }
+  ],
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
-    print: function() {}
+    print: function () { }
   },
   onPrepare() {
     require('ts-node').register({

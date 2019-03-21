@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class InputNumberService {
+  private readonly numbersIntegerOnly: RegExp = /\d+/g;
 
   constructor() { }
 
-  removeNonNumbers(value: string, regex: RegExp, keepDecimals: boolean = false, decimalPlace: number = 0): string {
-    let result: RegExpMatchArray = value.match(regex);
+  removeNonNumbers(value: string, keepDecimals: boolean = false, decimalPlace: number = 0): string {
+    let result: RegExpMatchArray = value.match(this.numbersIntegerOnly);
     if (result && result.length) {
 
       if (keepDecimals && result[1]) {
@@ -19,13 +20,7 @@ export class InputNumberService {
   }
 
   getKeyCode(event: KeyboardEvent): number {
-    return event.keyCode;
-  }
-
-  hasSelection(input: HTMLInputElement) {
-    if (typeof input.selectionStart === 'number') {
-      return input.selectionStart !== input.selectionEnd;
-    }
+    return event.which || event.keyCode;
   }
 
   isDecimalIndicator(event: KeyboardEvent) {

@@ -24,4 +24,8 @@ export class AppPage {
   getDecimalShowText() {
     return element(by.css('.display-decimal-value'));
   }
+
+  getLastDecimalShowText() {
+    return element(by.css('.display-last-decimal-value'));
+  }
 }

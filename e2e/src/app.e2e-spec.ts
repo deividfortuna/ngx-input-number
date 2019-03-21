@@ -24,9 +24,9 @@ describe('Input Number Example App', () => {
     it('should block letter entries and just allow numbers', async () => {
       page.navigateTo();
 
-      page
+      await page
         .getIntegerInput()
-        .sendKeys('abcdefghijklmnopqrstuxzwyABCDEFGHIJKLMNOPQRSTUXZWY1234567890.!@#$%^&*()_-;\':\"{}|[]\\');
+        .sendKeys('abcdefghijklmnopqrstuxzwyABCDEFGHIJKLMNOPQRSTUXZWY1234567890._-;\':\"{}|[]\\');
       expect(await page.getIntegerShowText().getText()).toEqual('1234567890');
     });
 
@@ -38,7 +38,7 @@ describe('Input Number Example App', () => {
         `event.clipboardData = { getData: function () { return '${dirtyNumber}'; } };` +
         `arguments[0].dispatchEvent(event);`;
 
-      browser.executeScript(script, page.getIntegerInput().getWebElement());
+      await browser.executeScript(script, page.getIntegerInput().getWebElement());
 
       expect(await page.getIntegerShowText().getText()).toEqual('1234567890');
     });
@@ -85,6 +85,7 @@ describe('Input Number Example App', () => {
       browser.executeScript(script, page.getDecimalInput().getWebElement());
 
       expect(await page.getDecimalShowText().getText()).toEqual('1234567890.321');
+      expect(await page.getLastDecimalShowText().getText()).toEqual('1234567890.321');
     });
 
     it('should clear the data droped in the input and keep the number with 3 decimal places', async () => {
@@ -173,13 +174,5 @@ describe('Input Number Example App', () => {
     // TODO: new test cases / new features
     // Round monetary values
     // Dont allow when allow-round is false
-  });
-
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE,
-    } as logging.Entry));
   });
 });
