@@ -12,7 +12,6 @@ describe('InputNumberDirective', () => {
   it('should create an instance', () => {
     const directive = new InputNumberDirective(
       TestBed.get(InputNumberService),
-      TestBed.get(Renderer2),
       TestBed.get(ElementRef)
     );
     expect(directive).toBeTruthy();

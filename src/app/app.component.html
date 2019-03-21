@@ -11,6 +11,9 @@
   <div class="display-integer-value">
     {{ inputInteger.value }}
   </div>
+  <div>
+    Is dirty: {{valueInteger.dirty}}
+  </div>
   <br/>
   <h2>Decimal Numbers</h2>
   <input id="only-decimal-value" 
@@ -22,5 +25,11 @@
         [formControl]="valueDecimal">
   <div class="display-decimal-value">
     {{ inputDecimal.value }}
+  </div>
+  <div>
+    Is dirty: <span class="decimal-is-dirty">{{valueDecimal.dirty}}</span>
+  </div>
+  <div>
+    Last Change: <span class="display-last-decimal-value">{{lastChangeDecimal}}</span>
   </div>
 </div>
