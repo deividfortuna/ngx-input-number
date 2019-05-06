@@ -74,31 +74,50 @@ describe('Input Number Example App', () => {
       expect(await page.getDecimalShowText().getText()).toEqual('1234567890.213');
     });
 
-    it('should clear the data pasted in the input and keep the number with 3 decimal place', async () => {
-      page.navigateTo();
+    describe('Copy/Paste', () => {
+      it('should clear the data pasted in the input and keep the number with 3 decimal place', async () => {
+        page.navigateTo();
 
-      const dirtyNumber = 'abcdefghijklmnopqrstuxzwyABCDEFGHIJKLMNOPQRSTUXZWY1234567890.3214.!@#$%^&*()_-;:{}|[]';
-      const script = `var event = new Event('paste', {});` +
-        `event.clipboardData = { getData: function () { return '${dirtyNumber}'; } };` +
-        `arguments[0].dispatchEvent(event);`;
+        const dirtyNumber = 'abcdefghijklmnopqrstuxzwyABCDEFGHIJKLMNOPQRSTUXZWY1234567890.3214.!@#$%^&*()_-;:{}|[]';
+        const script = `var event = new Event('paste', {});` +
+          `event.clipboardData = { getData: function () { return '${dirtyNumber}'; } };` +
+          `arguments[0].dispatchEvent(event);`;
 
-      browser.executeScript(script, page.getDecimalInput().getWebElement());
+        browser.executeScript(script, page.getDecimalInput().getWebElement());
 
-      expect(await page.getDecimalShowText().getText()).toEqual('1234567890.321');
-      expect(await page.getLastDecimalShowText().getText()).toEqual('1234567890.321');
+        expect(await page.getDecimalShowText().getText()).toEqual('1234567890.321');
+        expect(await page.getLastDecimalShowText().getText()).toEqual('1234567890.321');
+      });
+
+      it('should clear the data pasted in the input without any decimal when the value already have decimal point', async () => {
+        page.navigateTo();
+
+        await page.getDecimalInput().sendKeys('432.2');
+        const dirtyNumber = 'abcdefghijklmnopqrstuxzwyABCDEFGHIJKLMNOPQRSTUXZWY1234567890.3214.!@#$%^&*()_-;:{}|[]';
+        const script = `var event = new Event('paste', {});` +
+          `event.clipboardData = { getData: function () { return '${dirtyNumber}'; } };` +
+          `arguments[0].dispatchEvent(event);`;
+
+        browser.executeScript(script, page.getDecimalInput().getWebElement());
+
+        expect(await page.getDecimalShowText().getText()).toEqual('432.212');
+        expect(await page.getLastDecimalShowText().getText()).toEqual('432.212');
+      });
     });
 
-    it('should clear the data droped in the input and keep the number with 3 decimal places', async () => {
-      page.navigateTo();
+    describe('Drop Data', () => {
+      it('should clear the data droped in the input and keep the number with 3 decimal places', async () => {
+        page.navigateTo();
 
-      const dirtyNumber = 'abcdefghijklmnopqrstuxzwyABCDEFGHIJKLMNOPQRSTUXZWY1234567890.3214.!@#$%^&*()_-;:{}|[]';
-      const script = `var event = new Event('drop', {});` +
-        `event.dataTransfer = { getData: function () { return '${dirtyNumber}'; } };` +
-        `arguments[0].dispatchEvent(event);`;
+        const dirtyNumber = 'abcdefghijklmnopqrstuxzwyABCDEFGHIJKLMNOPQRSTUXZWY1234567890.3214.!@#$%^&*()_-;:{}|[]';
+        const script = `var event = new Event('drop', {});` +
+          `event.dataTransfer = { getData: function () { return '${dirtyNumber}'; } };` +
+          `arguments[0].dispatchEvent(event);`;
 
-      browser.executeScript(script, page.getDecimalInput().getWebElement());
+        browser.executeScript(script, page.getDecimalInput().getWebElement());
 
-      expect(await page.getDecimalShowText().getText()).toEqual('1234567890.321');
+        expect(await page.getDecimalShowText().getText()).toEqual('1234567890.321');
+      });
     });
 
     it('should allow number entries before the decimal indicator', async () => {
