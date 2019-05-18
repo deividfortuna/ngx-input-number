@@ -76,7 +76,7 @@ export class InputNumberDirective {
     event.stopPropagation();
 
     const pastedEntry: string = event.clipboardData.getData('text');
-    let cleanedValue = this.cleanEntry(target, pastedEntry);
+    const cleanedValue = this.cleanEntry(target, pastedEntry);
 
     this.element.focus();
 
@@ -96,7 +96,7 @@ export class InputNumberDirective {
     event.stopPropagation();
     const dropedEntry = event.dataTransfer.getData('text');
 
-    let cleanedValue = this.cleanEntry(target, dropedEntry);
+    const cleanedValue = this.cleanEntry(target, dropedEntry);
     this.element.focus();
 
     const inserted = document.execCommand('insertText', false, cleanedValue);
