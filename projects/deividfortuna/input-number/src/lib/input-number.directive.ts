@@ -71,16 +71,32 @@ export class InputNumberDirective {
     }
   }
 
-  @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent) {
+  @HostListener('paste', ['$event', '$event.target']) onPaste(event: ClipboardEvent, target: HTMLInputElement) {
     event.preventDefault();
     event.stopPropagation();
 
     const pastedEntry: string = event.clipboardData.getData('text');
+    const cleanedValue = this.cleanEntry(target, pastedEntry);
 
-    // Cleaning the data before insert in the field
-    const cleanedValue = this.inputNumberService
-      .removeNonNumbers(pastedEntry, this.acceptDecimalPlaces, this.decimalPlaces);
+    this.element.focus();
 
+    const inserted = document.execCommand('insertText', false, cleanedValue);
+
+    // If something goes wrong on insert text, like firefox: https://bugzilla.mozilla.org/show_bug.cgi?id=1220696
+    if (!inserted) {
+
+      // Fix anothe issue with firefox to put the text in the selection start
+      this.element.value = cleanedValue;
+      this.element.dispatchEvent(new Event('input'));
+    }
+  }
+
+  @HostListener('drop', ['$event', '$event.target']) onDrop(event: any, target: HTMLInputElement) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropedEntry = event.dataTransfer.getData('text');
+
+    const cleanedValue = this.cleanEntry(target, dropedEntry);
     this.element.focus();
 
     const inserted = document.execCommand('insertText', false, cleanedValue);
@@ -92,23 +108,18 @@ export class InputNumberDirective {
     }
   }
 
-  @HostListener('drop', ['$event']) onDrop(event: any) {
-    event.preventDefault();
-    event.stopPropagation();
-    const dropedEntry = event.dataTransfer.getData('text');
-
+  private cleanEntry(target: HTMLInputElement, pastedEntry: string) {
+    const indexOfDot = target.value.indexOf('.');
+    const hasDecimalAlready = indexOfDot > -1;
+    const keepDecimals = !hasDecimalAlready && this.acceptDecimalPlaces;
+    const isAddingDecimalsNumbers = hasDecimalAlready && (target.selectionStart > indexOfDot);
     // Cleaning the data before insert in the field
-    const cleanedValue = this.inputNumberService
-      .removeNonNumbers(dropedEntry, this.acceptDecimalPlaces, this.decimalPlaces);
-
-    this.element.focus();
-
-    const inserted = document.execCommand('insertText', false, cleanedValue);
-
-    // If something goes wrong on insert text, like firefox: https://bugzilla.mozilla.org/show_bug.cgi?id=1220696
-    if (!inserted) {
-      this.element.value = cleanedValue;
-      this.element.dispatchEvent(new Event('input'));
+    let cleanedValue = this.inputNumberService
+      .removeNonNumbers(pastedEntry, keepDecimals, this.decimalPlaces);
+    if (this.acceptDecimalPlaces && isAddingDecimalsNumbers) {
+      const quantityOfNewDecimalsAllowed = this.decimalPlaces - target.value.substring(indexOfDot + 1).length;
+      cleanedValue = cleanedValue.substring(0, quantityOfNewDecimalsAllowed);
     }
+    return cleanedValue;
   }
 }
