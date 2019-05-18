@@ -1,5 +1,5 @@
-import { AppPage } from './app.po';
-import { browser, logging } from 'protractor';
+import {AppPage} from './app.po';
+import {browser} from 'protractor';
 
 describe('Input Number Example App', () => {
   let page: AppPage;
@@ -106,7 +106,7 @@ describe('Input Number Example App', () => {
     });
 
     describe('Drop Data', () => {
-      it('should clear the data droped in the input and keep the number with 3 decimal places', async () => {
+      it('should clear the data dropped in the input and keep the number with 3 decimal places', async () => {
         page.navigateTo();
 
         const dirtyNumber = 'abcdefghijklmnopqrstuxzwyABCDEFGHIJKLMNOPQRSTUXZWY1234567890.3214.!@#$%^&*()_-;:{}|[]';
@@ -191,7 +191,7 @@ describe('Input Number Example App', () => {
     });
 
     // TODO: new test cases / new features
-    // Round monetary values
-    // Dont allow when allow-round is false
+    // Round monetary values?
+    // Dont allow when allow-round is false?
   });
 });
