@@ -1,24 +1,52 @@
 # InputNumber
 
-Library with a directive to only allow number entries in a input
+An Angular directive only allows [0-9] and the feature of decimal numbers in the input box when typing, pasting or drag/dropping. This directive handles both Windows keyboard and Mac keyboard.
 
-## Code scaffolding
 
-Run `ng generate component component-name --project input-number` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project input-number`.
-> Note: Don't forget to add `--project input-number` or else it will be added to the default project in your `angular.json` file. 
+## Installation
+```bash
+npm i @deividfortuna/input-number
+```
 
-## Build
+## Accept only integers numbers
+```html
+  <input type="text"
+        inputNumber>
+```
 
-Run `ng build input-number` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Accept decimal numbers
 
-## Publishing
+```html
+<input type="text"
+       inputNumber
+       [acceptDecimalPlaces]="true"
+       [decimalPlaces]="3">
+```
+## API Reference 
+Import directive module
+```typescript
+import { InputNumberModule } from '@deividfortuna/input-number';
+```
 
-After building your library with `ng build input-number`, go to the dist folder `cd dist/input-number` and run `npm publish`.
+Add the directive module to your angular module
+```typescript
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    InputNumberModule,
+    AppRoutingModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
 
-## Running unit tests
+### Properties
 
-Run `ng test input-number` to execute the unit tests via [Karma](https://karma-runner.github.io).
+`acceptDecimalPlaces`: `boolean` (default: `false`): Wheter the input will accept decimal or not
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+`decimalPlaces`: `integer` (default: `2`): Number of decimal places allowed when `acceptDecimalPlaces` is set to `true`
