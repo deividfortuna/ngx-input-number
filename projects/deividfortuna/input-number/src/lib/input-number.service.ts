@@ -7,7 +7,7 @@ export class InputNumberService {
   constructor() { }
 
   removeNonNumbers(value: string, keepDecimals: boolean = false, decimalPlace: number = 0): string {
-    let result: RegExpMatchArray = value.match(this.numbersIntegerOnly);
+    const result: RegExpMatchArray = value.match(this.numbersIntegerOnly);
     if (result && result.length) {
 
       if (keepDecimals && result[1]) {
@@ -16,7 +16,7 @@ export class InputNumberService {
         return result[0];
       }
     }
-    return null;
+    return '';
   }
 
   getKeyCode(event: KeyboardEvent): number {
