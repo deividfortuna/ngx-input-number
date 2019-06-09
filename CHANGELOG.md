@@ -1,5 +1,5 @@
 # NEXT
-- Prevent null in cleaning pasted and droped data
+- Fix null in cleaning pasted and droped data
 
 # 1.1.1 / 2019-05-18
 - MIT License
