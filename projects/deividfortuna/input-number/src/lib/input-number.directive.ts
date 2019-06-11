@@ -84,10 +84,15 @@ export class InputNumberDirective {
 
     // If something goes wrong on insert text, like firefox: https://bugzilla.mozilla.org/show_bug.cgi?id=1220696
     if (!inserted) {
+      // TODO: Fix another issue with firefox to put the text in the selection start
+      if (this.element.value !== cleanedValue) {
+        this.element.value = cleanedValue;
+        this.element.dispatchEvent(new Event('input'));
 
-      // Fix anothe issue with firefox to put the text in the selection start
-      this.element.value = cleanedValue;
-      this.element.dispatchEvent(new Event('input'));
+        this.element.addEventListener('focusout', () => {
+          this.element.dispatchEvent(new Event('change'));
+        }, { once: true });
+      }
     }
   }
 
@@ -103,8 +108,14 @@ export class InputNumberDirective {
 
     // If something goes wrong on insert text, like firefox: https://bugzilla.mozilla.org/show_bug.cgi?id=1220696
     if (!inserted) {
-      this.element.value = cleanedValue;
-      this.element.dispatchEvent(new Event('input'));
+      if (this.element.value !== cleanedValue) {
+        this.element.value = cleanedValue;
+        this.element.dispatchEvent(new Event('input'));
+
+        this.element.addEventListener('focusout', () => {
+          this.element.dispatchEvent(new Event('change'));
+        }, { once: true });
+      }
     }
   }
 
