@@ -1,4 +1,4 @@
-# Next
+# 1.1.3 / 2019-06-11
 - Fix firefox not dispatch change event on focusout
 
 # 1.1.2 / 2019-06-10
