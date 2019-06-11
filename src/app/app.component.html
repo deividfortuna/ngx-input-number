@@ -5,7 +5,7 @@
   <h2>Only Integers</h2>
   <input id="only-integer-value"
         type="text"
-        #inputInteger  
+        #inputInteger
         inputNumber
         [formControl]="valueInteger">
   <div class="display-integer-value">
@@ -16,13 +16,14 @@
   </div>
   <br/>
   <h2>Decimal Numbers</h2>
-  <input id="only-decimal-value" 
+  <input id="only-decimal-value"
         type="text"
-        #inputDecimal 
+        #inputDecimal
         inputNumber
         [acceptDecimalPlaces]="true"
         [decimalPlaces]="3"
-        [formControl]="valueDecimal">
+        [formControl]="valueDecimal"
+        (change)="onDecimalChange(inputDecimal.value)">
   <div class="display-decimal-value">
     {{ inputDecimal.value }}
   </div>

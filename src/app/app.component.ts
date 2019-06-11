@@ -22,4 +22,8 @@ export class AppComponent {
       // console.log('integer changed: ', value);
     });
   }
+
+  onDecimalChange(value: string) {
+    // console.log('changed called: ', value);
+  }
 }
