@@ -1,3 +1,7 @@
+# Next
+- Improvements in example page
+- Prevent numpad entries after maximum decimal points allowed
+
 # 1.1.3 / 2019-06-11
 - Fix firefox not dispatch change event on focusout
 

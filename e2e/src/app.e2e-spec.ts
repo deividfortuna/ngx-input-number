@@ -10,6 +10,6 @@ describe('Input Number Example App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Input Only Number');
+    expect(page.getTitleText()).toEqual('Ngx Input Number');
   });
 });

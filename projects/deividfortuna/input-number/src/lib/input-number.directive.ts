@@ -28,7 +28,6 @@ export class InputNumberDirective {
       || (key === 86 && event.metaKey === true) // Cmd+V (Mac)
       || (key === 88 && event.metaKey === true) // Cmd+X (Mac)
       || (key === 90 && event.metaKey === true) // Cmd+Z (Mac)
-      || ((key >= 96 && key <= 105)) // Allow NumPad keys
       || (key >= 35 && key <= 39) // Home, End, Left, Right
     ) {
       return;

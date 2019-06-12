@@ -1,5 +1,5 @@
 import { AppPage } from './app.po';
-import { browser } from 'protractor';
+import { browser, protractor } from 'protractor';
 import { async } from '@angular/core/testing';
 
 describe('Decimal', () => {
@@ -122,6 +122,31 @@ describe('Decimal', () => {
     await browser.executeScript(script, page.getDecimalInput()
       .getWebElement());
     await page.getDecimalInput().sendKeys('6667');
+
+    expect(await page.getDecimalShowText().getText()).toEqual('123456.666');
+  });
+
+  it('should block numpad entry after the decimal indicator when already have the maximum allowed ', async () => {
+    page.navigateTo();
+
+    const decimalNumber = '123456.';
+    const script = `arguments[0].setSelectionRange(7, 77)`;
+    page.getDecimalInput().sendKeys(decimalNumber);
+
+    await browser.executeScript(script, page.getDecimalInput()
+      .getWebElement());
+    await page.getDecimalInput().sendKeys('666');
+
+    await page.getDecimalInput().sendKeys(protractor.Key.NUMPAD0);
+    await page.getDecimalInput().sendKeys(protractor.Key.NUMPAD1);
+    await page.getDecimalInput().sendKeys(protractor.Key.NUMPAD2);
+    await page.getDecimalInput().sendKeys(protractor.Key.NUMPAD3);
+    await page.getDecimalInput().sendKeys(protractor.Key.NUMPAD4);
+    await page.getDecimalInput().sendKeys(protractor.Key.NUMPAD5);
+    await page.getDecimalInput().sendKeys(protractor.Key.NUMPAD6);
+    await page.getDecimalInput().sendKeys(protractor.Key.NUMPAD7);
+    await page.getDecimalInput().sendKeys(protractor.Key.NUMPAD8);
+    await page.getDecimalInput().sendKeys(protractor.Key.NUMPAD9);
 
     expect(await page.getDecimalShowText().getText()).toEqual('123456.666');
   });

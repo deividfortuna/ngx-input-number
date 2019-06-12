@@ -1,34 +1,40 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>Input Only Number</h1>
-  <br/>
-  <h2>Only Integers</h2>
-  <input id="only-integer-value"
-        type="text"
-        #inputInteger
-        inputNumber
-        [formControl]="valueInteger">
-  <div class="display-integer-value">
-    {{ inputInteger.value }}
+<div class="mx-auto">
+  <hr />
+  <h3>Integer Number</h3>
+  <hr />
+  <div class="form-group">
+    <label>
+      Integer
+    </label>
+    <input id="only-integer-value" type="text" class="form-control" #inputInteger inputNumber
+      [formControl]="valueInteger">
+    <small>
+      <i><b>Status</b>: {{valueInteger.status }} </i>
+      <i><b>Dirty</b>: {{valueInteger.dirty }} </i>
+      <i><b>Touched</b>: {{valueInteger.touched }} </i>
+    </small>
   </div>
   <div>
-    Is dirty: {{valueInteger.dirty}}
+      Input Value:<span class="display-integer-value">{{ inputInteger.value }}</span>
   </div>
-  <br/>
-  <h2>Decimal Numbers</h2>
-  <input id="only-decimal-value"
-        type="text"
-        #inputDecimal
-        inputNumber
-        [acceptDecimalPlaces]="true"
-        [decimalPlaces]="3"
-        [formControl]="valueDecimal"
-        (change)="onDecimalChange(inputDecimal.value)">
-  <div class="display-decimal-value">
-    {{ inputDecimal.value }}
+  <br />
+  <hr />
+  <h3>Decimal Number</h3>
+
+  <hr />
+  <div class="form-group">
+    <label>Decimal (3 decimal places)</label>
+      <input id="only-decimal-value" type="text" class="form-control" #inputDecimal inputNumber [acceptDecimalPlaces]="true"
+      [decimalPlaces]="3" [formControl]="valueDecimal" (change)="onDecimalChange(inputDecimal.value)">
+      <small>
+          <i><b>Status</b>: {{valueDecimal.status }} </i>
+          <i><b>Dirty</b>: {{valueDecimal.dirty }} </i>
+          <i><b>Touched</b>: {{valueDecimal.touched }} </i>
+        </small>
   </div>
   <div>
-    Is dirty: <span class="decimal-is-dirty">{{valueDecimal.dirty}}</span>
+    Input Value: <span class="display-decimal-value">{{ inputDecimal.value }}</span>
   </div>
   <div>
     Last Change: <span class="display-last-decimal-value">{{lastChangeDecimal}}</span>
