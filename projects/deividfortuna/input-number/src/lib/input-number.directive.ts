@@ -54,9 +54,16 @@ export class InputNumberDirective {
         } else {
           // If is inserting the value after the dot
           const valueAfterDot: string = target.value.substring(indexOfDot + 1);
-          // Check if already has the maximum of decimal places
-          if (valueAfterDot.length >= this.decimalPlaces) {
-            event.preventDefault();
+          const quantityCharSelected: number = this.element.selectionEnd - this.element.selectionStart;
+          // console.log('quantityCharSelected: ', quantityCharSelected);
+          const hasSelection: boolean = quantityCharSelected > 0;
+          if (hasSelection) {
+            return;
+          } else {
+            // Check if already has the maximum of decimal places
+            if (valueAfterDot.length >= this.decimalPlaces) {
+              event.preventDefault();
+            }
           }
         }
       }
@@ -123,11 +130,17 @@ export class InputNumberDirective {
     const hasDecimalAlready = indexOfDot > -1;
     const keepDecimals = !hasDecimalAlready && this.acceptDecimalPlaces;
     const isAddingDecimalsNumbers = hasDecimalAlready && (target.selectionStart > indexOfDot);
+    const quantityCharSelected: number = target.selectionEnd - target.selectionStart;
+    const hasSelection: boolean = quantityCharSelected > 0;
+
     // Cleaning the data before insert in the field
     let cleanedValue = this.inputNumberService
       .removeNonNumbers(pastedEntry, keepDecimals, this.decimalPlaces);
     if (this.acceptDecimalPlaces && isAddingDecimalsNumbers) {
-      const quantityOfNewDecimalsAllowed = this.decimalPlaces - target.value.substring(indexOfDot + 1).length;
+      const quantityOfNewDecimalsAllowed = hasSelection
+        ? quantityCharSelected
+        : this.decimalPlaces - target.value.substring(indexOfDot + 1).length;
+
       cleanedValue = cleanedValue.substring(0, quantityOfNewDecimalsAllowed);
     }
     return cleanedValue;
