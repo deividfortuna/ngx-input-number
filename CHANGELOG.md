@@ -1,4 +1,4 @@
-# Next
+# 1.1.4 / 2019-06-13
 - Improvements in example page
 - Prevent numpad entries after maximum decimal points allowed
 
