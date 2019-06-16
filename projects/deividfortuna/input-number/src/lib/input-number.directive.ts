@@ -55,8 +55,8 @@ export class InputNumberDirective {
           // If is inserting the value after the dot
           const valueAfterDot: string = target.value.substring(indexOfDot + 1);
           const quantityCharSelected: number = this.element.selectionEnd - this.element.selectionStart;
-          // console.log('quantityCharSelected: ', quantityCharSelected);
           const hasSelection: boolean = quantityCharSelected > 0;
+
           if (hasSelection) {
             return;
           } else {

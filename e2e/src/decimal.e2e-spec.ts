@@ -78,8 +78,7 @@ describe('Decimal', () => {
 
       await browser.executeScript(script, page.getDecimalInput().getWebElement());
 
-      // const dirtyNumber = 'abcdefghijklmnopqrstuxzwyABCDEFGHIJKLMNOPQ0RSTUXZWY.!@#$%^&*()_-;:{}|[]';
-      const dirtyNumber = 0;
+      const dirtyNumber = 'abcdefghijklmnopqrstuxzwyABCDEFGHIJKLMNOPQ0RSTUXZWY.!@#$%^&*()_-;:{}|[]';
       const pasteScript = `var event = new Event('paste', {});` +
         `event.clipboardData = { getData: function () { return '${dirtyNumber}'; } };` +
         `arguments[0].dispatchEvent(event);`;
