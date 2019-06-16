@@ -1,3 +1,7 @@
+# NEXT
+- Allow entries with selection content after decimal indicator
+- Added e2e tests
+
 # 1.1.4 / 2019-06-13
 - Improvements in example page
 - Prevent numpad entries after maximum decimal points allowed
