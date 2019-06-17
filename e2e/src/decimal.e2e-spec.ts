@@ -87,6 +87,23 @@ describe('Decimal', () => {
 
       expect(await page.getDecimalShowText().getText()).toEqual('123456.089');
     });
+
+    it('should overwrite all selection with a three decimal number', async () => {
+      page.navigateTo();
+
+      const decimalNumber = '123456.789';
+      const script = `arguments[0].setSelectionRange(0, 10)`;
+      await page.getDecimalInput().sendKeys(decimalNumber);
+      await browser.executeScript(script, page.getDecimalInput().getWebElement());
+
+      const dirtyNumber = '654321.987';
+      const pasteScript = `var event = new Event('paste', {});` +
+        `event.clipboardData = { getData: function () { return '${dirtyNumber}'; } };` +
+        `arguments[0].dispatchEvent(event);`;
+
+      await browser.executeScript(pasteScript, page.getDecimalInput().getWebElement());
+      expect(await page.getDecimalShowText().getText()).toEqual('654321.987');
+    });
   });
 
   describe('Drop Data', () => {
