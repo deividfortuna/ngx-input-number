@@ -57,9 +57,7 @@ export class InputNumberDirective {
           const quantityCharSelected: number = this.element.selectionEnd - this.element.selectionStart;
           const hasSelection: boolean = quantityCharSelected > 0;
 
-          if (hasSelection) {
-            return;
-          } else {
+          if (!hasSelection) {
             // Check if already has the maximum of decimal places
             if (valueAfterDot.length >= this.decimalPlaces) {
               event.preventDefault();
@@ -128,9 +126,10 @@ export class InputNumberDirective {
   private cleanEntry(target: HTMLInputElement, pastedEntry: string) {
     const indexOfDot = target.value.indexOf('.');
     const hasDecimalAlready = indexOfDot > -1;
-    const keepDecimals = !hasDecimalAlready && this.acceptDecimalPlaces;
-    const isAddingDecimalsNumbers = hasDecimalAlready && (target.selectionStart > indexOfDot);
     const quantityCharSelected: number = target.selectionEnd - target.selectionStart;
+    const isOverwritingEntireValue: boolean = quantityCharSelected === target.value.length;
+    const keepDecimals = (isOverwritingEntireValue || !hasDecimalAlready) && this.acceptDecimalPlaces;
+    const isAddingDecimalsNumbers = hasDecimalAlready && (target.selectionStart > indexOfDot);
     const hasSelection: boolean = quantityCharSelected > 0;
 
     // Cleaning the data before insert in the field

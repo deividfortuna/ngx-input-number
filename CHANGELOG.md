@@ -1,3 +1,7 @@
+# NEXT
+- Allow replace entire content selected
+- Added e2e tests
+
 # 1.1.5 / 2019-06-17
 - Allow entries with selection content after decimal indicator
 - Added e2e tests
