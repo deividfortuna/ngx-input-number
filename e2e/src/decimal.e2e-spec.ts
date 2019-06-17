@@ -63,10 +63,29 @@ describe('Decimal', () => {
         `event.clipboardData = { getData: function () { return '${dirtyNumber}'; } };` +
         `arguments[0].dispatchEvent(event);`;
 
-      await browser.executeScript(script, page.getIntegerInput().getWebElement());
+      await browser.executeScript(script, page.getDecimalInput().getWebElement());
 
-      expect(await page.getIntegerShowText().getText()).toEqual('');
+      expect(await page.getDecimalShowText().getText()).toEqual('');
       // expect(await page.get)
+    });
+
+    it('should allow overwrite selection after decimal point with pasted data', async () => {
+      page.navigateTo();
+
+      const decimalNumber = '123456.789';
+      const script = `arguments[0].setSelectionRange(7, 8)`;
+      page.getDecimalInput().sendKeys(decimalNumber);
+
+      await browser.executeScript(script, page.getDecimalInput().getWebElement());
+
+      const dirtyNumber = 'abcdefghijklmnopqrstuxzwyABCDEFGHIJKLMNOPQ0RSTUXZWY.!@#$%^&*()_-;:{}|[]';
+      const pasteScript = `var event = new Event('paste', {});` +
+        `event.clipboardData = { getData: function () { return '${dirtyNumber}'; } };` +
+        `arguments[0].dispatchEvent(event);`;
+
+      await browser.executeScript(pasteScript, page.getDecimalInput().getWebElement());
+
+      expect(await page.getDecimalShowText().getText()).toEqual('123456.089');
     });
   });
 
@@ -92,9 +111,9 @@ describe('Decimal', () => {
         `event.dataTransfer = { getData: function () { return '${dirtyNumber}'; } };` +
         `arguments[0].dispatchEvent(event);`;
 
-      await browser.executeScript(script, page.getIntegerInput().getWebElement());
+      await browser.executeScript(script, page.getDecimalInput().getWebElement());
 
-      expect(await page.getIntegerShowText().getText()).toEqual('');
+      expect(await page.getDecimalShowText().getText()).toEqual('');
     });
   });
 
@@ -149,6 +168,19 @@ describe('Decimal', () => {
     await page.getDecimalInput().sendKeys(protractor.Key.NUMPAD9);
 
     expect(await page.getDecimalShowText().getText()).toEqual('123456.666');
+  });
+
+  it('should allow overwrite selection after decimal point', async () => {
+    page.navigateTo();
+
+    const decimalNumber = '123456.789';
+    const script = `arguments[0].setSelectionRange(7, 8)`;
+    page.getDecimalInput().sendKeys(decimalNumber);
+
+    await browser.executeScript(script, page.getDecimalInput().getWebElement());
+    await page.getDecimalInput().sendKeys('0212');
+
+    expect(await page.getDecimalShowText().getText()).toEqual('123456.089');
   });
 
   it('should not allow entry another decimal place before a decimal place', async () => {
