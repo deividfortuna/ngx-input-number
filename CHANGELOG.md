@@ -1,3 +1,6 @@
+# 2.0.0 / 2021-05-29
+- Upgrade to Angular 12
+
 # 1.1.6 / 2019-06-17
 - Allow replace entire content selected
 - Added e2e tests
