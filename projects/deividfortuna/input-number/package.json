@@ -1,6 +1,6 @@
 {
   "name": "@deividfortuna/input-number",
-  "version": "1.1.6",
+  "version": "2.0.0",
   "license": "MIT",
   "author": {
     "name": "Deivid Fortuna",
@@ -27,8 +27,11 @@
   "bugs": {
     "url": "https://github.com/deividfortuna/ngx-input-number/issues"
   },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
-    "@angular/common": "^7.2.0",
-    "@angular/core": "^7.2.0"
+    "@angular/common": "^12.0.2",
+    "@angular/core": "^12.0.2"
   }
 }
