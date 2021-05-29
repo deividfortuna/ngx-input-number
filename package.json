@@ -9,7 +9,7 @@
     "build:lib": "ng build --project=@deividfortuna/input-number --configuration production",
     "test-ci": "ng test @deividfortuna/input-number --watch=false --browsers=ChromeHeadless",
     "test-e2e-ci": "ng e2e",
-    "build-ci": "ng build @deividfortuna/input-number",
+    "build-ci": "ng build @deividfortuna/input-number --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
