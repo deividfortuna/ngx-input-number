@@ -1,0 +1,52 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '12.x'
+      - uses: browser-actions/setup-chrome@v1
+        id: setup-chrome
+        with:
+          chrome-version: 114
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        env:
+          CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: npm run test-ci
+
+      - name: Run e2e tests
+        env:
+          CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: |
+          ${{ steps.setup-chrome.outputs.chrome-path }} --version
+          sudo ln -fs ${{ steps.setup-chrome.outputs.chrome-path }} /usr/bin/google-chrome
+          /usr/bin/google-chrome --version
+          npm run test-e2e-ci
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '12.x'
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build-ci
