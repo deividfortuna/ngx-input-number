@@ -27,5 +27,6 @@ jobs:
 
       - name: Release
         run: npm publish --provenance --access public
+        working-directory: dist/deividfortuna/input-number
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
