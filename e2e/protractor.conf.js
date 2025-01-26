@@ -10,9 +10,9 @@ exports.config = {
   ],
   multiCapabilities: [
     {
-      'browserName': 'chrome',
+      browserName: 'chrome',
       chromeOptions: {
-        args: [ "--headless" ]
+        args: [ '--headless', '--disable-gpu', '--no-sandbox', '--window-size=1920x1200' ],
       }
     },
     // {
